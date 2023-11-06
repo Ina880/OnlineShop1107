@@ -1,4 +1,6 @@
-﻿namespace OnlineShopCMS.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace OnlineShopCMS.Models
 {
     public class Product
     {
@@ -11,6 +13,7 @@
         public int? Stock { get; set; }              //商品庫存
         public byte[]? Image { get; set; }           //商品圖片
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }         //類別 (Foreign Key)
         public Category? Category { get; set; }
     }

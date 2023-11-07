@@ -33,12 +33,38 @@ namespace OnlineShopCMS.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+            public async Task<IActionResult> Index(string searchString, string currentFilter, int? pageNumber)
         {
-              return _context.Product != null ? 
-                          View(await _context.Product.Include(c=>c.Category).ToListAsync()) :
-                          Problem("Entity set 'OnlineShopCMSContext.Product'  is null.");
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;  // 儲存當前搜尋狀態
+
+            var result = from m in _context.Product select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(s => s.Name.Contains(searchString));
+            }
+
+            int pageSize = 5;  //一頁顯示幾項
+            return View(await PaginatedList<Product>.CreateAsync(
+                result.Include(p => p.Category).AsNoTracking(), pageNumber ?? 1, pageSize)
+            );
         }
+
+
+        //{
+
+        //      return _context.Product != null ? 
+        //                  View(await _context.Product.Include(c=>c.Category).ToListAsync()) :
+        //                  Problem("Entity set 'OnlineShopCMSContext.Product'  is null.");
+        //}
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)

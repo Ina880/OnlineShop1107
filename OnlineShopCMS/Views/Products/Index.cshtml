@@ -29,12 +29,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            <td>    
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
              </td>
+                <td>
+                    @if (item.Stock > 0)
+                    {
+                        @Html.Raw("<span class=" + "\" badge bg-success text-white \"" + ">在庫中</span>")
+                    }
+                    else
+                    {
+                        @Html.Raw("<span class=" + "\" badge bg-warning text-dark \"" + ">缺貨中</span>")
+                    }
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

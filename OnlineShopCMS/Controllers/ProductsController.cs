@@ -43,19 +43,36 @@ namespace OnlineShopCMS.Controllers
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Product == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
+            DetailViewModel dvm = new DetailViewModel();  //建立一個 ViewModel
+
             var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.Id == id);
+                        .Include(p => p.Category)
+                        .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
             }
+            else
+            {
+                dvm.product = product;
+                if (product.Image != null)
+                {
+                    dvm.imgsrc = ViewImage(product.Image);
+                }
+            }
+            return View(dvm); //回傳 ViewModel
+        }
 
-            return View(product);
+        private string ViewImage(byte[] arrayImage)
+        {
+            // 二進位圖檔轉字串
+            string base64String = Convert.ToBase64String(arrayImage, 0, arrayImage.Length);
+            return "data:image/png;base64," + base64String;
         }
 
         // GET: Products/Create

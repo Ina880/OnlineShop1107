@@ -27,12 +27,16 @@
             <th>
                         @Html.DisplayNameFor(model => model.Data.FirstOrDefault().Name)@*FirstOrDefault為什麼是陣列*@
             </th>
-            <th>
-                        @Html.DisplayNameFor(model => model.Data.FirstOrDefault().Price)
-            </th>
+          
             <th>
                         @Html.DisplayNameFor(model => model.Data.FirstOrDefault().Category)
             </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Data.FirstOrDefault().Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Data.FirstOrDefault().Stock)
+                    </th>
         </tr>
     </thead>
     <tbody>
@@ -41,12 +45,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>    
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
+          
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
              </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
                 <td>
                     @if (item.Stock > 0)
                     {

@@ -25,7 +25,7 @@
     <thead>
         <tr>
             <th>
-                        @Html.DisplayNameFor(model => model.Data.FirstOrDefault().Name)
+                        @Html.DisplayNameFor(model => model.Data.FirstOrDefault().Name)@*FirstOrDefault為什麼是陣列*@
             </th>
             <th>
                         @Html.DisplayNameFor(model => model.Data.FirstOrDefault().Price)
@@ -74,13 +74,13 @@
         <div class="d-flex justify-content-center">
             <a asp-action="Index"
                asp-route-pageNumber="@(Model.PageInfo.PageIndex - 1)"
-               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+         
                class="btn btn-default @prevDisabled">
                 Previous
             </a>
             <a asp-action="Index"
                asp-route-pageNumber="@(Model.PageInfo.PageIndex + 1)"
-               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+             
                class="btn btn-default @nextDisabled">
                 Next
             </a>

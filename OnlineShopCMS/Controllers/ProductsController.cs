@@ -53,9 +53,13 @@ namespace OnlineShopCMS.Controllers
             }
 
             int pageSize = 5;  //一頁顯示幾項
-            return View(await PaginatedList<Product>.CreateAsync(
+            var res = new IndexViewModel
+            {
+                Data= result.Include(p => p.Category).AsNoTracking().ToList(),
+                PageInfo= await PaginatedList<Product>.CreateAsync(
                 result.Include(p => p.Category).AsNoTracking(), pageNumber ?? 1, pageSize)
-            );
+            };//為什麼要這樣改
+            return View(res);
         }
 
 

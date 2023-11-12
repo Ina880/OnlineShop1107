@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using OnlineShopCMS.Data;
 using OnlineShopCMS.Models;
@@ -205,6 +206,7 @@ namespace OnlineShopCMS.Controllers
             }
 
             var product = await _context.Product
+               .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -212,7 +214,12 @@ namespace OnlineShopCMS.Controllers
             }
 
             return View(product);
+
+
+
+
         }
+
 
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]

@@ -1,9 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineShopCMS.Data;
+using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OnlineShopCMSContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineShopCMSContext") ?? throw new InvalidOperationException("Connection string 'OnlineShopCMSContext' not found.")));
+
+builder.Services.AddDbContext<OnlineShopUserContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineShopUserContext") ?? throw new InvalidOperationException("Connection string 'OnlineShopUserContext' not found.")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<OnlineShopUserContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,11 +29,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapRazorPages();
 app.Run();
